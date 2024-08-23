@@ -1,19 +1,66 @@
-import { Container } from "@mui/material";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
-const Sidebar = () => {
-    return <>
-        <Container className="sidebar">
-            <div className="top">
 
-            </div>
-            <div className="history">
+import EditIcon from "../assets/edit.png";
+import LogoIcon from "../assets/logo.png";
+import { Switch, Typography } from '@mui/material';
 
-            </div>
-            <div className="settings">
+const Sidebar = ({ open, setOpen, mode, setMode }) => {
 
-            </div>
-        </Container>
-    </>;
-};
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
+    };
 
+    const toggleTheme = () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      };
+
+    return (
+        <Box sx={{ width: 250, padding: '0', margin: '0', height: '100vh' }} role="presentation">
+            <List sx={{
+                padding: '0', margin: '0',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+            }}>
+                <ListItem alignItems='center' sx={{ backgroundColor: "primary.main", justifyContent: 'space-between' }} key={'New Chat'} disablePadding>
+                    <ListItemButton sx={{ color: 'black', fontWeight: 'bold' }}>
+                        <ListItemIcon sx={{ justifyContent: 'center' }}>
+                            <img className='logo' width='30px' src={LogoIcon} alt="" />
+                        </ListItemIcon>
+                        <ListItemText>
+                            <Typography textAlign={'center'} sx={{ fontSize: '1.2em' }}>
+                                New Chat
+                            </Typography>
+                        </ListItemText>
+                        <ListItemIcon sx={{ justifyContent: 'center' }}>
+                            <img width='25px' src={EditIcon} alt="" />
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem sx={{ flexGrow: 1 }} disablePadding>
+                    <ListItemButton>
+                        {/* HISTORY CHAT ITEMS */}
+                    </ListItemButton>
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                        <Switch color={'primary.dark'}  checked={mode === 'dark'} onClick={toggleTheme} />
+                        <Typography>{mode.charAt(0).toUpperCase() + mode.slice(1)} Mode</Typography>
+                    </Box>
+                </ListItem>
+            </List>
+        </Box>
+    );
+}
 export default Sidebar;

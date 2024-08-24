@@ -4,8 +4,60 @@ export const lightTheme = createTheme({
     palette: {
         primary: {
             main: "#AF9FCD",
-            light: "#F9FAFA",
+            light: "#9785BA",
             dark: "#9785BA",
+        },
+        secondary: {
+            main: "#D7C7F4",
+            light: "white",
+        },
+        background: {
+            default: "linear-gradient(180deg, #FFFFFF 0%, #9785BA 100%)",
+
+        },
+        text: {
+            primary: "#3C3C3C",
+            secondary: "#7E7E7E",
+            light: 'white'
+        },
+    },
+    shadows:[
+        'none',
+        '0 2px 5px grey',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+    ],
+    typography: {
+    fontFamily: "Ubuntu, Open Sans, sans-serif",
+  },
+});
+
+export const darkTheme = createTheme({
+    palette: {
+        primary: {
+            main: "#AF9FCD",
+            light: "#F9FAFA",
+            dark: "#60507B",
         },
         secondary: {
             main: "#D7C7F4",
@@ -15,33 +67,38 @@ export const lightTheme = createTheme({
             default: "linear-gradient(180deg, #FFFFFF 0%, #9785BA 100%)",
 
         },
-    },
-    typography: {
-    fontFamily: "Ubuntu, Open Sans, sans-serif",
-  },
-});
-
-export const darkTheme = createTheme({
-    palette: {
-        primary: {
-            main: "#B8A8DD",
-            light: "#D3C8F4",
-            // dark: "#60507B",
-            dark: "#D7C7F4",
-        },
-        secondary: {
-            main: "#7A5E9E",
-            light: "#FFFFFF",
-        },
-        background: {
-            default: "#383047",
-        },
         text: {
-            primary: "#E0DDED",
-            secondary: "#A69FC1",
-            disabled: "#5A5A6D",
+            primary: "#FFFFFF",
+            secondary: "#C0C0C0",
+            light: 'white'
         },
     },
+    shadows:[
+        'none',
+        '2px 5px 10px rgb(19, 19, 19)',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+    ],
     typography: {
     fontFamily: "Ubuntu, Open Sans, sans-serif",
   },

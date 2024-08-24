@@ -23,8 +23,8 @@ const Static = ({isMediumScreen}) => {
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
-                            boxShadow: '1px 5px 10px rgb(200, 200, 200)',
-                            backgroundColor: 'white',
+                            boxShadow: 1,
+                            backgroundColor: 'secondary.light',
                             padding: '2em',
                             borderRadius: '.5em',
                             width: '95%',
@@ -32,14 +32,14 @@ const Static = ({isMediumScreen}) => {
                         }}
                     >
                         <Typography variant="h5" fontWeight={'bold'}>Hi, what is the weather?</Typography>
-                        <Typography color={'grey'}>Get immediate AI generated response</Typography>
+                        <Typography color={'text.secondary'}>Get immediate AI generated response</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
-                            boxShadow: '1px 5px 10px rgb(200, 200, 200)',
-                            backgroundColor: 'white',
+                            boxShadow: 1,
+                            backgroundColor: 'secondary.light',
                             padding: '2em',
                             borderRadius: '.5em',
                             width: '95%',
@@ -47,14 +47,14 @@ const Static = ({isMediumScreen}) => {
                         }}
                     >
                         <Typography variant="h5" fontWeight={'bold'}>Hi, what is my location?</Typography>
-                        <Typography color={'grey'}>Get immediate AI generated response</Typography>
+                        <Typography color={'text.secondary'}>Get immediate AI generated response</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
-                            boxShadow: '1px 5px 10px rgb(200, 200, 200)',
-                            backgroundColor: 'white',
+                            boxShadow: 1,
+                            backgroundColor: 'secondary.light',
                             padding: '2em',
                             borderRadius: '.5em',
                             width: '95%',
@@ -62,14 +62,14 @@ const Static = ({isMediumScreen}) => {
                         }}
                     >
                         <Typography variant="h5" fontWeight={'bold'}>Hi, how are you?</Typography>
-                        <Typography color={'grey'}>Get immediate AI generated response</Typography>
+                        <Typography color={'text.secondary'}>Get immediate AI generated response</Typography>
                     </Box>
                 </Grid>
                 {isMediumScreen && <Grid item xs={12} md={6}>
                     <Box
                         sx={{
-                            boxShadow: '1px 5px 10px rgb(200, 200, 200)',
-                            backgroundColor: 'white',
+                            boxShadow: 1,
+                            backgroundColor: 'secondary.light',
                             padding: '2em',
                             borderRadius: '.5em',
                             width: '95%',
@@ -77,7 +77,7 @@ const Static = ({isMediumScreen}) => {
                         }}
                     >
                         <Typography variant="h5" fontWeight={'bold'}>Hi, what is the temperature?</Typography>
-                        <Typography color={'grey'}>Get immediate AI generated response</Typography>
+                        <Typography color={'text.secondary'}>Get immediate AI generated response</Typography>
                     </Box>
                 </Grid>}
 

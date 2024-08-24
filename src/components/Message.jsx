@@ -22,12 +22,12 @@ const Message = ({ message, username, timestamp, roleIcon }) => {
                     justifyContent: username === 'You' ? 'right' : 'left',
                     alignItems: 'center',
                     gap: '1em',
-                    padding: '10px',
                     boxShadow: '0 0 10px grey',
                     borderRadius: '1em',
                     padding: '1em',
                     backgroundColor: 'secondary.light',
-                    flexDirection: username === 'You' ? 'row-reverse' : 'row'
+                    flexDirection: username === 'You' ? 'row-reverse' : 'row',
+                    width: username !== 'You' ? '100%' : 'fit-content',
                 }}
             >
                 <Box 
@@ -38,7 +38,7 @@ const Message = ({ message, username, timestamp, roleIcon }) => {
                     <img className={'msg-icon'} width='50px' src={roleIcon} alt="" />
                 </Box>
                 <Box>
-                    <Typography fontWeight={'bold'}>{username}</Typography>
+                    <Typography textAlign={username === 'You' ? 'right' : 'left'} fontWeight={'bold'}>{username}</Typography>
                     <Typography fontSize={'.9em'}>{message}</Typography>
                     <Box
                         sx={{

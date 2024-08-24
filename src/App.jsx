@@ -15,6 +15,8 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useSnackbar } from 'notistack';
 
+import { v4 } from 'uuid';
+
 export default function App() {
   const [mode, setMode] = useState("light");
   const [open, setOpen] = useState(false);
@@ -22,9 +24,11 @@ export default function App() {
 
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState(JSON.parse(localStorage.getItem('curr')) || []);
   const [message, setMessage] = useState('');
 
+  const [lastSavedIdx, setLastSavedIdx] = useState(0);
+  const [savedConversations, setSavedConversations] = useState(JSON.parse(localStorage.getItem('savedPaths')) || []);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -49,12 +53,13 @@ export default function App() {
 
   const fetchAnswer = (message) => {
     var { timestamp, time } = getTimes();
-    setConversations(prev => [...prev, {
+    const question = {
       username: 'You',
       timestamp,
       message,
       time,
-    }]);
+    }
+    setConversations(prev => [...prev, question]);
     let idx = -1, prevMatchFraction = -1;
     setIsLoading(true);
     setTimeout(() => {
@@ -65,30 +70,49 @@ export default function App() {
           prevMatchFraction = matchFraction;
         }
       });
+      var { timestamp, time } = getTimes();
       setMessages(prev => [...prev, {
         question: message,
         answer: idx !== -1 ? responses[idx].response : 'I am sorry, I am unable to answer your question at this time.',
         timestamp,
         time
       }]);
-      var { timestamp, time } = getTimes();
-      setConversations(prev => [...prev, {
+      const answer = {
         message: idx !== -1 ? responses[idx].response : 'I am sorry, I am unable to answer your question at this time.',
         username: 'Soul AI',
         timestamp,
         time
-      }]);
+      }
+      // cache current conversation
+      localStorage.setItem('curr', JSON.stringify([...((JSON.parse(localStorage.getItem('curr'))) || []), question, answer]));
+      setConversations(prev => [...prev, answer]);
       setIsLoading(false);
       setMessage('');
     }, 1500);
   };
 
   const saveChat = () => {
+    if (lastSavedIdx === conversations.length) {
+      enqueueSnackbar('The conversation was already saved! Ask away further to save new conversations', {
+        anchorOrigin: {
+          horizontal: 'center',
+          vertical: 'top'
+        },
+        autoHideDuration: '500',
+        variant: 'warning'
+      });
+      return;
+    }
     const today = new Date().toLocaleDateString().replace(/\//g, '-');
-    console.log(today);
     setIsLoading(true);
     setTimeout(() => {
-      localStorage.setItem(`${today}`, JSON.stringify(conversations));
+      localStorage.setItem(`${today}`, JSON.stringify([...JSON.parse(localStorage.getItem(`${today}`)) || [], {
+        id: v4(),
+        conversations: conversations.slice(lastSavedIdx)
+      }]));
+      localStorage.setItem('savedPaths', JSON.stringify([...JSON.parse(localStorage.getItem('savedPaths')) || [], `${today}` ]));
+      setLastSavedIdx(conversations.length);
+      localStorage.setItem('lastSavedIdx', conversations.length);
       setIsLoading(false);
       enqueueSnackbar('Chat saved successfully!', {
         anchorOrigin: {
@@ -96,9 +120,7 @@ export default function App() {
           vertical: 'top'
         },
         autoHideDuration: '500',
-        style: {
-          backgroundColor: '#AF9FCD'
-        }
+        variant: 'info'
       });
     }, 1500);
   }
@@ -106,7 +128,7 @@ export default function App() {
   useEffect(() => {
     scrollDown();
   }, [conversations]);
-  
+
 
   const scrollDown = () => {
     if (scrollableRef.current) {
@@ -133,7 +155,7 @@ export default function App() {
         }}
         disableGutters
       >
-        {isMediumScreen && <Grid item width={250}><Sidebar mode={mode} setMode={setMode} open={open} setOpen={setOpen} /></Grid>}
+        {isMediumScreen && <Grid item><Sidebar setConversations={setConversations} mode={mode} setMode={setMode} open={open} setOpen={setOpen} /></Grid>}
         <Container
           maxWidth={false}
           sx={{
@@ -151,7 +173,7 @@ export default function App() {
             </Button>}
             <Typography fontWeight={700} color={'primary.dark'} variant="h5">Bot AI</Typography>
             {!isMediumScreen && <Drawer sx={{ padding: '0', margin: '0' }} open={open} onClose={toggleDrawer(false)}>
-              <Sidebar mode={mode} setMode={setMode} open={open} setOpen={setOpen} />
+              <Sidebar setConversations={setConversations} mode={mode} setMode={setMode} open={open} setOpen={setOpen} />
             </Drawer>}
           </Box>
 
@@ -175,8 +197,8 @@ export default function App() {
             <Box
               sx={{
                 position: 'absolute',
-                bottom: '65px',
-                left: '48%',
+                bottom: '80px',
+                right: '0%',
                 zIndex: 1000
               }}
             >
@@ -201,7 +223,7 @@ export default function App() {
             }}
           >
             <TextField
-            placeholder='Message Bot AI'
+              placeholder='Message Bot AI'
               onChange={handleChatOnChange}
               value={message || ''}
               size="small"

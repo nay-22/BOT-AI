@@ -12,9 +12,13 @@ import ListItemText from '@mui/material/ListItemText';
 
 import EditIcon from "../assets/edit.png";
 import LogoIcon from "../assets/logo.png";
-import { Switch, Typography } from '@mui/material';
+import { Switch, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@emotion/react';
 
-const Sidebar = ({ open, setOpen, mode, setMode }) => {
+const Sidebar = ({ setConversations, open, setOpen, mode, setMode }) => {
+
+    const theme = useTheme()
+    const isXlScreen = useMediaQuery((theme) => theme.breakpoints.up('xl'))
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -22,10 +26,16 @@ const Sidebar = ({ open, setOpen, mode, setMode }) => {
 
     const toggleTheme = () => {
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-      };
+    };
+
+    const clearCurrentConversation = () => {
+        localStorage.setItem('curr', JSON.stringify([]));
+        localStorage.setItem('lastSavedIdx', 0);
+        setConversations([]);
+    }
 
     return (
-        <Box sx={{ width: 250, padding: '0', margin: '0', height: '100vh' }} role="presentation">
+        <Box sx={{ width: isXlScreen ? 350 : 250, padding: '0', margin: '0', height: '100vh' }} role="presentation">
             <List sx={{
                 padding: '0', margin: '0',
                 display: 'flex',
@@ -33,7 +43,13 @@ const Sidebar = ({ open, setOpen, mode, setMode }) => {
                 height: '100vh',
             }}>
                 <ListItem alignItems='center' sx={{ backgroundColor: "primary.main", justifyContent: 'space-between' }} key={'New Chat'} disablePadding>
-                    <ListItemButton sx={{ color: 'black', fontWeight: 'bold' }}>
+                    <ListItemButton
+                        sx={{
+                            color: 'black',
+                            fontWeight: 'bold'
+                        }}
+                        onClick={clearCurrentConversation}
+                    >
                         <ListItemIcon sx={{ justifyContent: 'center' }}>
                             <img className='logo' width='30px' src={LogoIcon} alt="" />
                         </ListItemIcon>
@@ -55,7 +71,7 @@ const Sidebar = ({ open, setOpen, mode, setMode }) => {
                 <Divider />
                 <ListItem>
                     <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-                        <Switch color={'primary.dark'}  checked={mode === 'dark'} onClick={toggleTheme} />
+                        <Switch color={'primary.dark'} checked={mode === 'dark'} onClick={toggleTheme} />
                         <Typography>{mode.charAt(0).toUpperCase() + mode.slice(1)} Mode</Typography>
                     </Box>
                 </ListItem>

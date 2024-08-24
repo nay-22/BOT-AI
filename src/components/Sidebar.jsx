@@ -1,24 +1,33 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
+
+import { Switch, Typography, useMediaQuery } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import { useTheme } from '@emotion/react';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
 
+import ConversationContext from '../contexts/ConversationContext';
 
 import EditIcon from "../assets/edit.png";
 import LogoIcon from "../assets/logo.png";
-import { Switch, Typography, useMediaQuery } from '@mui/material';
-import { useTheme } from '@emotion/react';
+
 
 const Sidebar = ({ setConversations, open, setOpen, mode, setMode }) => {
 
-    const theme = useTheme()
-    const isXlScreen = useMediaQuery((theme) => theme.breakpoints.up('xl'))
+    const { savedPaths, setSavedPaths } = useContext(ConversationContext);
+
+    const theme = useTheme();
+    const isXlScreen = useMediaQuery((theme) => theme.breakpoints.up('xl'));
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -26,12 +35,17 @@ const Sidebar = ({ setConversations, open, setOpen, mode, setMode }) => {
 
     const toggleTheme = () => {
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+        localStorage.setItem('theme', mode === "light" ? "dark" : "light");
     };
 
     const clearCurrentConversation = () => {
         localStorage.setItem('curr', JSON.stringify([]));
         localStorage.setItem('lastSavedIdx', 0);
         setConversations([]);
+    }
+
+    const navigateToHome = () => {
+        navigate("/");
     }
 
     return (
@@ -41,40 +55,88 @@ const Sidebar = ({ setConversations, open, setOpen, mode, setMode }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100vh',
+                backgroundColor: 'primary.dark',
+                overflowY: 'auto'
             }}>
-                <ListItem alignItems='center' sx={{ backgroundColor: "primary.main", justifyContent: 'space-between' }} key={'New Chat'} disablePadding>
+                <ListItem
+                    alignItems='center'
+                    sx={{
+                        backgroundColor: "primary.main",
+                        justifyContent: 'space-between',
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 1
+                    }}
+                    key={'New Chat'}
+                    disablePadding
+                >
                     <ListItemButton
                         sx={{
                             color: 'black',
                             fontWeight: 'bold'
                         }}
-                        onClick={clearCurrentConversation}
+                        onClick={location.pathname.includes('chat') ? navigateToHome : clearCurrentConversation}
                     >
                         <ListItemIcon sx={{ justifyContent: 'center' }}>
                             <img className='logo' width='30px' src={LogoIcon} alt="" />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography textAlign={'center'} sx={{ fontSize: '1.2em' }}>
-                                New Chat
+                                <b>{location.pathname.includes('chat') ? 'Home' : 'New Chat'}</b>
                             </Typography>
                         </ListItemText>
                         <ListItemIcon sx={{ justifyContent: 'center' }}>
-                            <img width='25px' src={EditIcon} alt="" />
+                            {location.pathname.includes('chat') ? <ArrowBackIosIcon /> : <img width='25px' src={EditIcon} alt="" />}
                         </ListItemIcon>
                     </ListItemButton>
                 </ListItem>
-                <ListItem sx={{ flexGrow: 1 }} disablePadding>
-                    <ListItemButton>
-                        {/* HISTORY CHAT ITEMS */}
-                    </ListItemButton>
-                </ListItem>
-                <Divider />
-                <ListItem>
+                <ListItem
+                    sx={{
+                        position: 'sticky',
+                        top: '52.8px',
+                        zIndex: 1,
+                        backgroundColor: 'primary.dark'
+                    }}
+                >
                     <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
                         <Switch color={'primary.dark'} checked={mode === 'dark'} onClick={toggleTheme} />
                         <Typography>{mode.charAt(0).toUpperCase() + mode.slice(1)} Mode</Typography>
                     </Box>
                 </ListItem>
+                <Divider
+                    sx={{
+                        position: 'sticky',
+                        top: '105.6px',
+                        zIndex: 1,
+                        backgroundColor: 'primary.dark'
+                    }}
+                />
+                <ListItem
+                    sx={{
+                        position: 'sticky',
+                        top: '107px',
+                        zIndex: 1,
+                        backgroundColor: 'primary.dark',
+                    }}
+                    width={'100%'}
+                >
+                    <Box width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                        <Typography color={'text.light'} fontWeight={'bold'} >Past Conversations</Typography>
+                    </Box>
+                </ListItem>
+                {savedPaths.map(path =>
+                    <NavLink
+                        key={path}
+                        to={`/chat/${path}`}
+                        className={({ isActive }) => (isActive ? 'active' : 'inactive')}
+                    >
+                        <ListItem sx={{ flexGrow: 1 }} disablePadding>
+                            <ListItemButton>
+                                {path}
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+                )}
             </List>
         </Box>
     );

@@ -1,17 +1,28 @@
 .logo {
     border-radius: .5em;
-    box-shadow: 2px 5px 10px grey;
     color: #e9deff
 }
 
 .logo-big {
     border-radius: 10em;
-    box-shadow: 2px 5px 10px grey;
     color: #e9deff;
 }
 
 .msg-icon {
     border-radius: 10em;
-    box-shadow: 2px 5px 10px grey;
     color: #d7c7f465
+}
+
+.inactive {
+    text-decoration: none;
+    color: rgb(54, 54, 54);
+    font-weight: bold;
+    background-color: #D7C7F4;
+}
+
+.active {
+    text-decoration: none;
+    color: rgb(198, 198, 198);
+    font-weight: bold;
+    background-color: #372f44;
 }

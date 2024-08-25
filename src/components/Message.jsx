@@ -44,7 +44,7 @@ const Message = ({ id, message, username, timestamp, roleIcon, rating, saved = f
         type: '',
         value: ''
     });
-    
+
     const theme = useTheme();
     const { conversations, setConversations } = useContext(ConversationContext);
 
@@ -111,6 +111,9 @@ const Message = ({ id, message, username, timestamp, roleIcon, rating, saved = f
                 alignItems: 'center',
                 borderRadius: '1em',
                 width: '100%',
+                '&:hover .rating-buttons': {
+                    visibility: 'visible',
+                },
             }}
         >
             <Box
@@ -149,32 +152,47 @@ const Message = ({ id, message, username, timestamp, roleIcon, rating, saved = f
                             <Typography fontSize={'.9em'} color={'text.secondary'}>{timestamp}</Typography>
                             {username !== 'You' && <>
                                 {!saved && <>
-                                    <Button
+                                    <Box
+                                        className='rating-buttons'
                                         sx={{
-                                            padding: '.5em 0',
-                                            margin: '0',
-                                            minWidth: '0',
-                                            width: 'fit-content',
-                                            borderRadius: '5em'
+                                            display: 'flex',
+                                            gap: '.5em',
+                                            visibility: currRating.type ? 'visible' : 'hidden'
                                         }}
-                                        onClick={thumbsUp}
-                                        disabled={isRated}
                                     >
-                                        {isRated && currRating.type === 'positive' ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-                                    </Button>
-                                    <Button
-                                        sx={{
-                                            padding: '.5em 0',
-                                            margin: '0',
-                                            minWidth: '0',
-                                            width: 'fit-content',
-                                            borderRadius: '5em'
-                                        }}
-                                        onClick={thumbsDown}
-                                        disabled={isRated}
-                                    >
-                                        {isRated && currRating.type === 'negative' ? <ThumbDownIcon /> : <ThumbDownOffAltIcon />}
-                                    </Button>
+                                        <Button
+                                            sx={{
+                                                padding: '.25em',
+                                                margin: '0',
+                                                minWidth: '0',
+                                                width: 'fit-content',
+                                                borderRadius: '5em',
+                                                ":hover": {
+                                                    boxShadow: 1
+                                                }
+                                            }}
+                                            onClick={thumbsUp}
+                                            disabled={isRated}
+                                        >
+                                            {isRated && currRating.type === 'positive' ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+                                        </Button>
+                                        <Button
+                                            sx={{
+                                                padding: '.25em',
+                                                margin: '0',
+                                                minWidth: '0',
+                                                width: 'fit-content',
+                                                borderRadius: '5em',
+                                                ":hover": {
+                                                    boxShadow: 1
+                                                }
+                                            }}
+                                            onClick={thumbsDown}
+                                            disabled={isRated}
+                                        >
+                                            {isRated && currRating.type === 'negative' ? <ThumbDownIcon /> : <ThumbDownOffAltIcon />}
+                                        </Button>
+                                    </Box>
                                 </>}
                             </>}
                         </Box>

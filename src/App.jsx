@@ -99,7 +99,7 @@ export default function App() {
       const answer = {
         id: `AI#${v4()}`,
         message: idx !== -1 ? responses[idx].response : 'I am sorry, I am unable to answer your question at this time.',
-        username: 'Soul AI',
+        username: 'Tech AI',
         timestamp,
         time
       }
@@ -208,22 +208,22 @@ export default function App() {
               {!isMediumScreen && <Button onClick={() => setOpen(true)}>
                 <MenuIcon sx={{ fontSize: '3em', color: 'primary.light' }} />
               </Button>}
-              <Typography fontWeight={700} color={'primary.light'} variant="h5">Bot AI</Typography>
+              <Typography fontWeight={700} color={'primary.light'} variant="h5">Tech AI</Typography>
 
               {!isMediumScreen && <Drawer sx={{ padding: '0', margin: '0' }} open={open} onClose={toggleDrawer(false)}>
                 <Sidebar setConversations={setConversations} mode={mode} setMode={setMode} open={open} setOpen={setOpen} />
               </Drawer>}
             </Box>
             {location.pathname.includes('chat') && <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} gap={1} sx={{ padding: '1em' }}>
-              <Typography fontWeight={700} color={'background.dark'} variant="h5">Conversation History</Typography>
+              <Typography fontWeight={700} color={'background.dark'} variant="h6">Conversation History</Typography>
               <Box>
-                <Button sx={{ mr: '1em' }} variant='contained' size='small' onClick={() => { setFilter({
+                <Button sx={{ mr: '1em',minWidth: '0' }} variant='contained' size='small' onClick={() => { setFilter({
                   rateFilter: 'All',
                   dateSort: 'Low'
                 }) }}>
                   <RestartAlt color={'primary.main'} />
                 </Button>
-                <Button variant='contained' size='small' onClick={() => setShowFilter(prev => !prev)}>
+                <Button sx={{minWidth: '0'}} variant='contained' size='small' onClick={() => setShowFilter(prev => !prev)}>
                   <FilterAltIcon color={'primary.main'} />
                 </Button>
               </Box>
@@ -372,7 +372,7 @@ export default function App() {
               }}
             >
               <TextField
-                placeholder='Message Bot AI'
+                placeholder='Message Tech AI'
                 onChange={handleChatOnChange}
                 disabled={isLoading}
                 value={message || ''}

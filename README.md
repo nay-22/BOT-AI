@@ -3,7 +3,7 @@ AI Chat Application | ChatGPT-like frontend interface | React
 
 ### Link: **https://bot-1eqmgnsh7-nayans-projects-ca58165e.vercel.app**
 
-**Note**: This frontend-only app is built using React and has no backend components. It uses a JSON file as sample data for the frontend use case. The questions entered are matched to the questions in the JSON file based on the similarity index to filter out the most relevant answer when matched with a similarity of greater than 0.5.
+**Note**: This frontend-only app is built using React and has no backend components. It uses a JSON file (**/src/config/sampleData.json**) as sample data for the frontend use case. The questions entered are matched to the questions in the JSON file based on the similarity index to filter out the most relevant answer when matched with a similarity of greater than 0.5.
 
 ## Techstack
 - React + Javascript

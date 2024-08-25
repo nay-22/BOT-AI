@@ -304,7 +304,7 @@ export default function App() {
                     <MenuItem value="All">All</MenuItem>
                   </Select>
 
-                  <InputLabel><Typography fontWeight={'bold'} color={'text.primary'}>Date</Typography></InputLabel>
+                  <InputLabel><Typography fontWeight={'bold'} color={'text.primary'}>Time</Typography></InputLabel>
                   <Select
                     sx={{
                       width: '100%',
